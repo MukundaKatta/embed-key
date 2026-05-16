@@ -1,0 +1,15 @@
+[package]
+name = "embed-key"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+description = "Deterministic cache key for an embedding request: hash text + mix in provider, model, and dimensionality. So a cache survives model upgrades without false hits. Zero deps."
+authors = ["Mukunda Rao Katta <mukunda.vjcs6@gmail.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/MukundaKatta/embed-key"
+homepage = "https://github.com/MukundaKatta/embed-key"
+documentation = "https://docs.rs/embed-key"
+readme = "README.md"
+keywords = ["embedding", "cache-key", "hash", "rag", "deterministic"]
+categories = ["caching", "cryptography"]
+exclude = [".github/*", "target/*"]
