@@ -41,3 +41,24 @@ fn identical_inputs_identical_keys() {
     let b = key("p", "m", 1, "x");
     assert_eq!(a, b);
 }
+
+#[test]
+fn empty_inputs_are_valid() {
+    let k = key("", "", 0, "");
+    assert_eq!(k.len(), 64);
+    assert!(k.chars().all(|c| c.is_ascii_hexdigit()));
+}
+
+#[test]
+fn delimiter_like_content_does_not_collide() {
+    // A field that contains separator-looking bytes must never collide with a
+    // different field split. With naive `\n`-joined framing these two distinct
+    // tuples hashed to the same pre-image; unambiguous framing keeps them apart.
+    let a = key("openai\nm=evil", "real", 1, "x");
+    let b = key("openai", "evil\nm=real", 1, "x");
+    assert_ne!(a, b);
+
+    let c = key("a", "bc", 1, "x");
+    let d = key("ab", "c", 1, "x");
+    assert_ne!(c, d);
+}
