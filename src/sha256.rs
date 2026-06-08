@@ -1,6 +1,6 @@
 //! Pure-Rust SHA-256 (FIPS 180-4). Adequate for hashing prompts;
 //! NOT a cryptographic API — no HMAC, no constant-time anything.
-//! Inlined here to keep promptver dependency-free.
+//! Inlined here to keep embed-key dependency-free.
 
 const K: [u32; 64] = [
     0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
@@ -67,6 +67,8 @@ fn compress(state: &mut [u32; 8], block: &[u8]) {
 
 /// Hex SHA-256 of `data`.
 pub fn hex(data: &[u8]) -> String {
+    use std::fmt::Write as _;
+
     let mut state = H0;
     let bit_len = (data.len() as u64) * 8;
 
@@ -91,7 +93,7 @@ pub fn hex(data: &[u8]) -> String {
 
     let mut out = String::with_capacity(64);
     for w in &state {
-        out.push_str(&format!("{w:08x}"));
+        let _ = write!(out, "{w:08x}");
     }
     out
 }

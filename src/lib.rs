@@ -25,6 +25,7 @@ mod sha256;
 /// different `(provider, model, dim, text)` tuple. This upholds the
 /// "no false hits" guarantee even for inputs containing newlines, `=`, or
 /// other separator-like bytes.
+#[must_use]
 pub fn key(provider: &str, model: &str, dim: usize, text: &str) -> String {
     let mut buf = Vec::with_capacity(provider.len() + model.len() + text.len() + 64);
     push_field(&mut buf, provider.as_bytes());
